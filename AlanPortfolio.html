@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alan Roy - Portfolio | Python Full Stack Developer</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- FontAwesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f6f9;
+      color: #333;
+      line-height: 1.7;
+    }
+
+    .navbar {
+      background-color: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      color: #007bff !important;
+    }
+
+    .nav-link {
+      color: #333 !important;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-link:hover {
+      color: #007bff !important;
+    }
+
+    header {
+      background: linear-gradient(135deg, #01f7ff, #0165b2);
+      color: #fff;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .profile-img {
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 5px solid #fff;
+      margin-bottom: 20px;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+
+    header a {
+      color: #fff;
+      text-decoration: underline;
+      margin: 0 5px;
+      font-weight: 500;
+    }
+
+    section {
+      padding: 60px 0;
+    }
+
+    section h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 40px;
+      color: #333;
+      text-align: center;
+    }
+
+    .icon {
+      font-size: 2.5rem;
+      color: #007bff;
+      margin-bottom: 20px;
+    }
+
+    .card-custom {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      margin-bottom: 25px;
+      transition: transform 0.3s;
+    }
+
+    .card-custom:hover {
+      transform: translateY(-5px);
+    }
+
+    ul.list-unstyled li {
+      margin-bottom: 10px;
+    }
+
+    h5 {
+      font-weight: 600;
+      margin-top: 15px;
+    }
+
+    footer {
+      background: #fff;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      color: #777;
+      border-top: 1px solid #ddd;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      .profile-img {
+        width: 120px;
+        height: 120px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Alan Roy</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
+          <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="#internships">Internships</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header>
+    <img src="./profile.jpeg" alt="Profile Photo" class="profile-img" />
+    <h1>Alan Roy</h1>
+    <p>Python Full Stack Developer | Web Developer | Tech Enthusiast</p>
+    <p><strong>Email:</strong> alanroyff101@gmail.com | <strong>Phone:</strong> +91 7511136171</p>
+    <p>
+      <a href="https://linkedin.com/in/alan-roy-a87887315" target="_blank">LinkedIn</a> |
+      <a href="https://github.com/alnroy" target="_blank">GitHub</a>
+    </p>
+    <a href="./Alan Roy-1.pdf" target="_blank" class="btn btn-light btn-lg mt-3">
+      <i class="fas fa-download"></i> Download CV
+    </a>
+  </header>
+
+  <!-- About -->
+  <section id="about" class="container">
+    <div class="text-center">
+      <i class="fas fa-user icon"></i>
+    </div>
+    <h2>Career Objective</h2>
+    <p class="text-center">
+      To secure a challenging and rewarding position as a <b>Python Full Stack Developer</b>, where I can leverage my technical skills, 
+      problem-solving abilities, and passion for continuous learning to contribute effectively to organizational growth and success.
+    </p>
+  </section>
+
+  <!-- Education -->
+  <section id="education" class="container">
+    <div class="text-center">
+      <i class="fas fa-graduation-cap icon"></i>
+    </div>
+    <h2>Education</h2>
+    <div class="card-custom">
+      <h5>Bachelor of Computer Application</h5>
+      <p>Naipunnya School Of Management, Cherthala (2022 – 2025)</p>
+    </div>
+    <div class="card-custom">
+      <h5>Higher Secondary Education</h5>
+      <p>Holy Family Higher Secondary School, Cherthala (2020 – 2022)</p>
+    </div>
+    <div class="card-custom">
+      <h5>High School Education</h5>
+      <p>Holy Family Higher Secondary School, Cherthala (2019 – 2020)</p>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="container">
+    <div class="text-center">
+      <i class="fas fa-code icon"></i>
+    </div>
+    <h2>Technical Skills</h2>
+    <div class="row">
+      <div class="col-md-6 card-custom">
+        <h5><i class="fas fa-laptop-code"></i> Python</h5>
+        <ul class="list-unstyled">
+          <li>OOP concepts: classes, objects, constructors, inheritance, method overriding</li>
+          <li>Datatypes: int, float, bool, str, list, tuple, set, dictionary</li>
+          <li>String, list, set, and dictionary operations</li>
+          <li>Operators: arithmetic, logical, comparison, assignment</li>
+          <li>Practiced coding and debugging in Python IDLE</li>
+        </ul>
+      </div>
+      <div class="col-md-6 card-custom">
+        <h5><i class="fas fa-database"></i> SQL</h5>
+        <ul class="list-unstyled">
+          <li>CRUD operations, SQL queries, JOINs, subqueries</li>
+          <li>GROUP BY, SQL functions</li>
+          <li>DDL, DML, DCL, TCL, DQL statements</li>
+          <li>Normalization concepts and ER diagrams</li>
+        </ul>
+      </div>
+      <div class="col-md-6 card-custom">
+        <h5><i class="fas fa-mobile-alt"></i> Flutter</h5>
+        <ul class="list-unstyled">
+          <li>Cross-platform mobile app development (Android & iOS)</li>
+          <li>Experience with widgets, state management (Provider, setState)</li>
+          <li>Worked with REST APIs and JSON integration</li>
+          <li>UI/UX design using Material Design and Cupertino widgets</li>
+          <li>Knowledge of Firebase integration (Auth, Firestore, Storage)</li>
+        </ul>
+      </div>
+      <div class="col-md-6 card-custom">
+        <h5><i class="fas fa-code-branch"></i> Django</h5>
+        <ul class="list-unstyled">
+          <li>Developing web applications using Django framework</li>
+          <li>User authentication, authorization, and session management</li>
+          <li>Creating and handling models, forms, and views</li>
+          <li>Working with Django database migrations</li>
+          <li>REST API development with Django REST Framework (DRF)</li>
+          <li>Template rendering and static/media file management</li>
+        </ul>
+      </div>
+      <div class="col-md-6 card-custom">
+        <h5><i class="fas fa-globe"></i> Web Development</h5>
+        <ul class="list-unstyled">
+          <li>HTML5, CSS3, and JavaScript (Basics)</li>
+          <li>Responsive design using Bootstrap and CSS3</li>
+          <li>Experience with DOM manipulation and event handling</li>
+          <li>Basic knowledge of AJAX and Fetch API</li>
+          <li>Basic Knowledge of UI/UX design principles and cross-browser compatibility</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="container">
+    <div class="text-center">
+      <i class="fas fa-project-diagram icon"></i>
+    </div>
+    <h2>Projects</h2>
+    <div class="card-custom">
+      <h5>Online Sports Registration – SPORTELLETTE</h5>
+      <p><b>Tech Stack:</b> C#, .NET, HTML, CSS, Bootstrap, JavaScript</p>
+      <p>A platform to help organizers manage events effectively with a user-friendly interface. Reduced paperwork and improved efficiency.</p>
+    </div>
+    <div class="card-custom">
+      <h5>Catering and Event Registration Application – CATERCRAFT</h5>
+      <p><b>Tech Stack:</b> Python Django, Flutter, Deep Learning</p>
+      <p>Centralized platform for customers and event managers. Integrated image recognition and data mining for smarter services.</p>
+    </div>
+    <div class="card-custom">
+      <h5>Projects learning & explorer Website – LogicCraft</h5>
+      <p><b>Tech Stack:</b> Python Django, Html/css/bootstrap/JavaScript</p>
+      <p>Built a centralized catering/event management platform with deep learning for image recognition. Backend in Django, frontend in Flutter.</p>
+    </div>
+  </section>
+
+  <!-- Internships -->
+  <section id="internships" class="container">
+    <div class="text-center">
+      <i class="fas fa-briefcase icon"></i>
+    </div>
+    <h2>Internships</h2>
+    <div class="card-custom">
+      <h5>Web Application Development (Python Django) & Mobile App Development (Flutter)</h5>
+      <p>LogicCraft Software Solutions, Manappuram – 2025</p>
+    </div>
+    <div class="card-custom">
+      <h5>Python Full Stack Development Internship</h5>
+      <p>QSpiders, Cochin – 2025 (Currently Pursuing)</p>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="container">
+    <div class="text-center">
+      <i class="fas fa-envelope icon"></i>
+    </div>
+    <h2>Contact</h2>
+    <div class="card-custom text-center">
+      <p><i class="fas fa-envelope"></i> <b>Email:</b> alanroyff101@gmail.com</p>
+      <p><i class="fas fa-phone"></i> <b>Phone:</b> +91 7511136171</p>
+      <p><i class="fab fa-linkedin"></i> <b>LinkedIn:</b> <a href="https://linkedin.com/in/alan-roy-a87887315" target="_blank">linkedin.com/in/alan-roy</a></p>
+      <p><i class="fab fa-github"></i> <b>GitHub:</b> <a href="https://github.com/alnroy" target="_blank">github.com/alnroy</a></p>
+      <p>I am always open to collaboration, freelance projects, and job opportunities. Feel free to connect with me!</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Alan Roy | Portfolio</p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
