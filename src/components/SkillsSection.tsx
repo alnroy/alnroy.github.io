@@ -29,19 +29,19 @@ const SkillsSection = () => {
     {
       title: "Database",
       icon: Database,
-      skills: ["SQL", "PostgreSQL", "MySQL", "Database Design", "ORM"],
+      skills: ["SQL", "PostgreSQL", "MySQL", "Database Design"],
       color: "from-orange-500 to-red-500",
     },
     {
       title: "Machine Learning",
       icon: Brain,
-      skills: ["TensorFlow", "Pandas", "NumPy", "Scikit-learn", "Data Analysis"],
+      skills: ["TensorFlow", "Pandas", "NumPy", "Scikit-learn"],
       color: "from-indigo-500 to-violet-500",
     },
     {
       title: "Tools & Other",
       icon: Palette,
-      skills: ["Git", "GitHub", "API Integration", "UI/UX Design", "Agile Methodology"],
+      skills: ["Git", "GitHub", "API Integration", "UI/UX Design", "Agile Methodology","Modern AI tools"],
       color: "from-yellow-500 to-amber-500",
     },
   ];

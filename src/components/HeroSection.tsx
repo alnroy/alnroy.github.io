@@ -1,4 +1,4 @@
-import { ArrowDown, Download, Briefcase } from "lucide-react";
+import { Download, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import FloatingCity3D from "./FloatingCity3D";
 import { Link } from "react-router-dom";
@@ -22,12 +22,18 @@ const HeroSection = () => {
       {/* Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 z-20 text-center">
         <div className="max-w-4xl mx-auto space-y-8 animate-fade-in-up">
-          {/* Main heading */}
-          <div className="space-y-4">
+          
+          {/* Main heading with profile pic */}
+          <div className="flex flex-col items-center space-y-4">
+            <img
+              src="profile.jpg"
+              alt="Alan Roy"
+              className="w-32 h-32 rounded-full border-4 border-primary neon-glow object-cover object-[center_0%]"
+            />
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight">
               <span className="gradient-text">ALAN ROY</span>
             </h1>
-            <div className="h-1 w-32 mx-auto bg-gradient-to-r from-primary to-secondary rounded-full neon-glow" />
+            <div className="h-1 w-32 bg-gradient-to-r from-primary to-secondary rounded-full neon-glow" />
           </div>
 
           {/* Title */}
@@ -67,7 +73,7 @@ const HeroSection = () => {
                 View Projects
               </Button>
             </Link>
-            <a href="/resume.pdf" download>
+            <a href="ALAN-ROY-FlowCV-Resume-20251017.pdf" download>
               <Button
                 size="lg"
                 variant="outline"
@@ -79,14 +85,16 @@ const HeroSection = () => {
             </a>
           </div>
 
-          {/* Scroll indicator */}
-          <button
-            onClick={() => scrollToSection("about")}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce"
-            aria-label="Scroll to content"
-          >
-            <ArrowDown className="w-6 h-6 text-primary" />
-          </button>
+          {/* Interactive AI button at the bottom */}
+          <div className="pt-12">
+            <Button
+              size="lg"
+              className="bg-secondary hover:bg-secondary/90 neon-glow-hover"
+              onClick={() => scrollToSection("interactive-ai")} // optional: scroll to AI section
+            >
+              Interactive AI
+            </Button>
+          </div>
         </div>
       </div>
     </section>

@@ -11,7 +11,7 @@ const AboutSection = () => {
     { icon: MapPin, text: "Near Cherthala, Kerala, India" },
     { icon: Mail, text: "alanroyffl01@gmail.com", href: "mailto:alanroyffl01@gmail.com" },
     { icon: Phone, text: "+91 7511136171", href: "tel:+917511136171" },
-    { icon: Globe, text: "alnroy.github.io", href: "https://alnroy.github.io" },
+    { icon: Globe, text: "alnroy.github", href: "https://github.com/alnroy/" },
   ];
 
   return (
@@ -42,7 +42,7 @@ const AboutSection = () => {
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 With a strong foundation in Python, Django, Flutter, and React, I specialize in developing 
-                scalable applications that solve real-world problems. I'm constantly exploring new technologies 
+                scalable applications that solve real-world problems with the help of modern Technologies like AI. I'm constantly exploring new technologies 
                 and methodologies to enhance my skill set.
               </p>
               <p className="text-muted-foreground leading-relaxed">

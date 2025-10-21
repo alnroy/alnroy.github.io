@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { Mail, Send, Github, Linkedin, Twitter } from "lucide-react";
+import { Mail, Send, Github, Linkedin, Twitter, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -30,9 +30,9 @@ const ContactSection = () => {
   };
 
   const socialLinks = [
-    { icon: Github, href: "https://github.com/alnroy", label: "GitHub" },
-    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-    { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
+    { icon: Github, href: "https://github.com/alnroy/", label: "GitHub" },
+    { icon: Linkedin, href: "https://linkedin.com/in/alan-roy-a87887315/", label: "LinkedIn" },
+    { icon: Instagram, href: "https://www.instagram.com/alnroy?igsh=cHAxMDZkMncyNW5i", label: "Instagram" },
   ];
 
   return (
@@ -103,7 +103,7 @@ const ContactSection = () => {
                     className="glass border-primary/30 focus:border-primary resize-none"
                   />
                 </div>
-
+                <a href="mailto:alanroyff101@gmail.com?subject=Hello&body=I%20want%20to%20contact%20you">
                 <Button
                   type="submit"
                   className="w-full bg-primary hover:bg-primary/90 neon-glow-hover"
@@ -111,7 +111,7 @@ const ContactSection = () => {
                 >
                   <Send className="mr-2 h-5 w-5" />
                   Send Message
-                </Button>
+                </Button></a>
               </form>
             </div>
 

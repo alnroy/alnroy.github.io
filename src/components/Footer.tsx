@@ -10,7 +10,7 @@ const Footer = () => {
           </p>
           <p className="text-sm text-muted-foreground flex items-center justify-center space-x-1">
             <span>Built with</span>
-            <Heart className="w-4 h-4 text-primary animate-glow-pulse" />
+            <span>AI</span>
             <span>using React, Three.js & Tailwind CSS</span>
           </p>
         </div>
