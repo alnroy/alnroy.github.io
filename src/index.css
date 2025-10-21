@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Glassmorphic Portfolio Theme - Hi Anime Inspired */
+    --background: 220 30% 8%;
+    --foreground: 200 20% 98%;
+
+    --card: 220 25% 12%;
+    --card-foreground: 200 20% 98%;
+
+    --popover: 220 28% 10%;
+    --popover-foreground: 200 20% 98%;
+
+    --primary: 195 100% 55%;
+    --primary-foreground: 220 30% 8%;
+
+    --secondary: 280 85% 65%;
+    --secondary-foreground: 220 30% 8%;
+
+    --muted: 220 20% 20%;
+    --muted-foreground: 200 10% 65%;
+
+    --accent: 195 100% 60%;
+    --accent-foreground: 220 30% 8%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 200 20% 98%;
+
+    --border: 200 30% 25%;
+    --input: 200 30% 20%;
+    --ring: 195 100% 55%;
+
+    --radius: 1rem;
+
+    /* Custom Glassmorphic tokens */
+    --glass-bg: 220 25% 12%;
+    --glass-border: 200 50% 50%;
+    --neon-cyan: 195 100% 55%;
+    --neon-magenta: 320 90% 65%;
+    --gradient-start: 195 100% 45%;
+    --gradient-end: 280 85% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    background: linear-gradient(135deg, hsl(220 30% 8%) 0%, hsl(230 35% 12%) 50%, hsl(220 30% 10%) 100%);
+    background-attachment: fixed;
+  }
+
+  /* Glassmorphism utilities */
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .neon-glow {
+    box-shadow: 0 0 20px rgba(0, 200, 255, 0.3),
+                0 0 40px rgba(0, 200, 255, 0.15);
+  }
+
+  .neon-glow-hover {
+    transition: all 0.3s ease;
+  }
+
+  .neon-glow-hover:hover {
+    box-shadow: 0 0 30px rgba(0, 200, 255, 0.5),
+                0 0 60px rgba(0, 200, 255, 0.25);
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--neon-cyan)) 0%, hsl(var(--neon-magenta)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Smooth scroll */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, hsl(var(--neon-cyan)), hsl(var(--neon-magenta)));
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, hsl(var(--primary)), hsl(var(--secondary)));
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
