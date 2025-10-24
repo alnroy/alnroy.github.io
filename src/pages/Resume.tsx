@@ -35,7 +35,7 @@ const Resume = () => {
                 </div>
                 <div className="flex items-center space-x-2">
                   <MapPin className="w-4 h-4 text-primary" />
-                  <span>Near Cherthala, Kerala</span>
+                  <span>Near Cherthala, Alappuzha, Kerala</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Globe className="w-4 h-4 text-primary" />
@@ -95,8 +95,8 @@ const Resume = () => {
 
               <div className="glass-strong rounded-2xl p-8">
                 <h3 className="text-2xl font-bold text-foreground mb-2">Bachelor of Computer Applications</h3>
-                <p className="text-primary font-semibold mb-2">University Name</p>
-                <p className="text-muted-foreground">2020 - 2023</p>
+                <p className="text-primary font-semibold mb-2">University of Kerala</p>
+                <p className="text-muted-foreground">2022 - 2025</p>
               </div>
             </div>
           </div>

@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { Mail, Send, Github, Linkedin, Twitter, Instagram } from "lucide-react";
+import { Mail, Send, Github, Linkedin, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import emailjs from "emailjs-com";
 
-const ContactSection = () => {
+const ContactSection: React.FC = () => {
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -21,12 +22,35 @@ const ContactSection = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the form data to a backend
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for reaching out. I'll get back to you soon!",
-    });
-    setFormData({ name: "", email: "", message: "" });
+
+    emailjs
+      .send(
+        "service_i24br4l",
+        "template_ynzu7or", 
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+        },
+        "A2xWpSiHG4HIeHQGt"
+      )
+      .then(
+        () => {
+          toast({
+            title: "Message Sent!",
+            description: "Thank you for reaching out. I’ll get back to you soon!",
+          });
+          setFormData({ name: "", email: "", message: "" });
+        },
+        (error) => {
+          console.error("EmailJS Error:", error);
+          toast({
+            title: "Error!",
+            description: "Failed to send message. Please try again later.",
+            variant: "destructive",
+          });
+        }
+      );
   };
 
   const socialLinks = [
@@ -59,51 +83,39 @@ const ContactSection = () => {
             {/* Contact form */}
             <div className="glass-strong rounded-2xl p-8">
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                    Your Name
-                  </label>
-                  <Input
-                    id="name"
-                    type="text"
-                    placeholder="John Doe"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    required
-                    className="glass border-primary/30 focus:border-primary"
-                  />
-                </div>
+                {/* Name */}
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="John Doe"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                  className="glass border-primary/30 focus:border-primary"
+                />
 
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                    Your Email
-                  </label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="john@example.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    required
-                    className="glass border-primary/30 focus:border-primary"
-                  />
-                </div>
+                {/* Email */}
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="john@example.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                  className="glass border-primary/30 focus:border-primary"
+                />
 
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-                    Your Message
-                  </label>
-                  <Textarea
-                    id="message"
-                    placeholder="Tell me about your project..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    required
-                    rows={5}
-                    className="glass border-primary/30 focus:border-primary resize-none"
-                  />
-                </div>
-                <a href="mailto:alanroyff101@gmail.com?subject=Hello&body=I%20want%20to%20contact%20you">
+                {/* Message */}
+                <Textarea
+                  id="message"
+                  placeholder="Tell me about your project..."
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  required
+                  rows={5}
+                  className="glass border-primary/30 focus:border-primary resize-none"
+                />
+
                 <Button
                   type="submit"
                   className="w-full bg-primary hover:bg-primary/90 neon-glow-hover"
@@ -111,7 +123,7 @@ const ContactSection = () => {
                 >
                   <Send className="mr-2 h-5 w-5" />
                   Send Message
-                </Button></a>
+                </Button>
               </form>
             </div>
 

@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { Download, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import FloatingCity3D from "./FloatingCity3D";
 import { Link } from "react-router-dom";
+import InteractiveAI from "@/components/InteractiveAI";
 
 const HeroSection = () => {
+  const [isAIOpen, setIsAIOpen] = useState(false); // Modal state
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: "smooth" });
@@ -18,7 +22,7 @@ const HeroSection = () => {
 
       {/* Gradient overlays */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background z-10" />
-      
+
       {/* Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 z-20 text-center">
         <div className="max-w-4xl mx-auto space-y-8 animate-fade-in-up">
@@ -85,16 +89,19 @@ const HeroSection = () => {
             </a>
           </div>
 
-          {/* Interactive AI button at the bottom */}
-          <div className="pt-12">
-            <Button
-              size="lg"
-              className="bg-secondary hover:bg-secondary/90 neon-glow-hover"
-              onClick={() => scrollToSection("interactive-ai")} // optional: scroll to AI section
+          {/* Interactive AI button */}
+          <div className="flex justify-center py-12">
+            <button
+              onClick={() => setIsAIOpen(true)}
+              className="bg-secondary text-white px-6 py-3 rounded-lg hover:bg-secondary/90 neon-glow-hover"
             >
               Interactive AI
-            </Button>
+            </button>
           </div>
+
+          {/* Modal */}
+          <InteractiveAI isOpen={isAIOpen} onClose={() => setIsAIOpen(false)} />
+
         </div>
       </div>
     </section>

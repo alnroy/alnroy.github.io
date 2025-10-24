@@ -13,7 +13,7 @@ const ProjectsSection = () => {
       description: "Comprehensive catering and event management platform with real-time booking system",
       longDescription:
         "CaterCraft is a full-featured catering and event registration platform built with Python and Flutter. It provides a seamless experience for customers to browse services, make bookings, and manage events, while offering powerful admin tools for business management.",
-      tech: ["Django", "Flutter", "PostgreSQL", "REST API", "Python"],
+      tech: ["Django", "Flutter", "SQLITE", "REST API", "Python"],
       image: "https://images.unsplash.com/photo-1555244162-803834f70033?w=800",
       github: "https://github.com/alnroy",
       features: [
@@ -33,7 +33,7 @@ const ProjectsSection = () => {
         "Cardio is a machine learning application that predicts the likelihood of heart disease based on patient health metrics. Built with Python and TensorFlow, it provides accurate predictions to assist in early diagnosis.",
       tech: ["Python", "TensorFlow", "Pandas", "Scikit-learn", "Flask"],
       image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800",
-      github: "https://github.com/alnroy",
+      github: "https://github.com/alnroy/Cardio/",
       features: [
         "ML model trained on comprehensive health datasets",
         "Real-time prediction interface",
@@ -47,7 +47,7 @@ const ProjectsSection = () => {
       title: "LogicCraft Website",
       description: "Modern corporate website showcasing services and portfolio",
       longDescription:
-        "LogicCraft's corporate website is a sleek, modern platform built with HTML, JavaScript and CSS. It showcases the company's services, portfolio, and team with engaging animations and responsive design.",
+        "LogicCraft's corporate website is a sleek, modern platform built with HTML, JavaScript and CSS. It showcases the company's services, products, student interaction with engaging animations and responsive design.",
       tech: ["Python", "CSS", "Django", "HTML"],
       image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800",
       demo: "https://www.logiccraft.in",
@@ -56,8 +56,8 @@ const ProjectsSection = () => {
         "Responsive web application",
         "Smooth scrolling and animations",
         "Service showcase with interactive cards",
-        "Search Member",
-        "Contact form integration",
+        "Search Certificates",
+        "User authentication and authorization",
       ],
       gradient: "from-green-500 to-teal-600",
     },
@@ -73,8 +73,8 @@ const ProjectsSection = () => {
         "Event creation and management",
         "Participant registration system",
         "Real-time schedule updates",
-        "Mobile app with Flutter",
-        "Payment integration",
+        "Rduced Paper Works",
+        "Participants registration",
       ],
       gradient: "from-orange-500 to-yellow-600",
     },

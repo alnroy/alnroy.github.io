@@ -8,7 +8,7 @@ const AboutSection = () => {
   });
 
   const contactInfo = [
-    { icon: MapPin, text: "Near Cherthala, Kerala, India" },
+    { icon: MapPin, text: "Near Cherthala, Alappuzha, Kerala, India" },
     { icon: Mail, text: "alanroyffl01@gmail.com", href: "mailto:alanroyffl01@gmail.com" },
     { icon: Phone, text: "+91 7511136171", href: "tel:+917511136171" },
     { icon: Globe, text: "alnroy.github", href: "https://github.com/alnroy/" },
