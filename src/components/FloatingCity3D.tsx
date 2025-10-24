@@ -8,10 +8,10 @@ const GALAXY_RADIUS = 50;
 const GALAXY_HEIGHT = 5;
 const ARM_COUNT = 4;
 const ARM_TIGHTNESS = 0.5;
-const EXPLOSION_STRENGTH = 20; // How far stars explode from their initial galaxy position
-const INTERACTIVE_FORCE_RADIUS = 150; // Radius around mouse where stars react
-const INTERACTIVE_FORCE_STRENGTH = 5; // How strongly stars react to mouse
-const RETURN_TO_SPREAD_SPEED = 1; // How fast stars return to their spread state
+const EXPLOSION_STRENGTH = 100; // How far stars explode from their initial galaxy position
+const INTERACTIVE_FORCE_RADIUS = 50; // Radius around mouse where stars react
+const INTERACTIVE_FORCE_STRENGTH = 50; // How strongly stars react to mouse
+const RETURN_TO_SPREAD_SPEED = 0.1; // How fast stars return to their spread state
 
 type AnimationPhase = 'initial' | 'exploding' | 'interactive';
 
@@ -130,7 +130,7 @@ const ExplodingGalaxyContent: React.FC = () => {
       } else if (animationPhase === 'exploding') {
         // Animate explosion progress
         setExplosionProgress(prev => {
-          const newProgress = Math.min(prev + delta * 0.5, 1); // Explosion speed
+          const newProgress = Math.min(prev + delta * 0.1, 1); // Explosion speed
           if (newProgress >= 1 && prev < 1) {
             setAnimationPhase('interactive'); // Transition to interactive phase
           }
@@ -223,7 +223,7 @@ const ExplodingGalaxy: React.FC = () => {
           maxDistance={200}
           maxPolarAngle={Math.PI / 1.5}
           minPolarAngle={Math.PI / 4}
-          autoRotate={false} // Disable auto-rotate for interactive phase
+          autoRotate={true} // Disable auto-rotate for interactive phase
         />
       </Canvas>
 

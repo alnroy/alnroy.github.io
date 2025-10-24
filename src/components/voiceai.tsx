@@ -421,7 +421,7 @@ const VoiceAI: React.FC<VoiceAIProps> = ({ onBack }) => {
     } else if (q.includes('help')) {
       speak('You can ask me about projects, skills, resume, about Alan, or how to contact him.');
     } else {
-      speak("I'm sorry, I didn't catch that. Could you please repeat?");
+      speak("");
     }
   }, [speak, navigate, stopSpeechRecognition]);
 
@@ -509,7 +509,7 @@ const VoiceAI: React.FC<VoiceAIProps> = ({ onBack }) => {
             className="relative flex flex-col items-center justify-center w-full max-w-3xl h-[85vh] bg-gradient-to-br from-gray-900 to-black rounded-3xl p-8 shadow-2xl border border-gray-800"
           >
             {/* 3D Orb Canvas */}
-            <div className="w-full h-3/5 mb-8 ml-0.5">
+            <div className="w-full h-3/5 mb-8 ml-10">
               <Canvas camera={{ position: [0, 0, 3] }}>
                 <ambientLight intensity={0.5} />
                 <pointLight position={[5, 5, 5]} intensity={1} />

@@ -164,6 +164,9 @@ operable program or batch file.`;
                 </p>
               </div>
             </div>
+            <p className="text-sm text-muted-foreground text-center mt-2">
+                  The Voice Assistant is only compatible with the browsers having web voice recognition. Chrome will not be as compatible as other browsers. 
+                </p>
           </>
         ) : activeAI === "voice" ? (
            <VoiceAI onBack={() => setActiveAI(null)} />
@@ -171,6 +174,7 @@ operable program or batch file.`;
           <TerminalAI />
         )}
       </div>
+      
     </div>
   );
 };
