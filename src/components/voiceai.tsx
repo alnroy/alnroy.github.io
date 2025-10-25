@@ -3,6 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { motion, AnimatePresence } from 'framer-motion';
 import * as THREE from 'three';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from "react-router-dom";
 
 // ---------- WaveLayer Component ----------
 const WaveLayer = ({ radius, color, speed, amplitude, frequency, offset }: any) => {
@@ -140,6 +141,7 @@ const VoiceAI: React.FC<VoiceAIProps> = ({ onBack, handleBackendCommand }) => {
   const [reconnecting, setReconnecting] = useState(false);
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
   const [lastApiResponse, setLastApiResponse] = useState<string | null>(null); // New state for API response
+  const navigate = useNavigate();
 
   const synthRef = useRef<SpeechSynthesis | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -148,37 +150,72 @@ const VoiceAI: React.FC<VoiceAIProps> = ({ onBack, handleBackendCommand }) => {
   useEffect(() => {
     synthRef.current = window.speechSynthesis;
   }, []);
-
+const getMaleVoice = useCallback(() => { if (!synthRef.current) return null;
+  const voices = synthRef.current.getVoices(); 
+  return voices.find( 
+    (v) => v.name.includes('Male') 
+    || v.name.includes('David') || 
+    v.name.includes('Mark') || 
+    v.name.includes('Google US English') 
+    || (v.lang === 'en-US' && !v.name.includes('Female')) ) 
+    || null; },
+  []);
   const speak = useCallback((text: string, onSpeechEnd?: () => void) => {
     if (!synthRef.current) return onSpeechEnd?.();
     synthRef.current.cancel();
     setSpeaking(true);
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1;
-    utterance.pitch = 0.98;
-    utterance.volume = 1;
-    utterance.onend = () => {
-      setSpeaking(false);
-      onSpeechEnd?.();
-    };
+    const utterance = new SpeechSynthesisUtterance(text); 
+    const voice = getMaleVoice(); if (voice) { utterance.voice = voice; } 
+    utterance.rate = 1.0; 
+    utterance.pitch = 0.8; 
+    utterance.volume = 1.0; 
+    utterance.onend = () => { setSpeaking(false); onSpeechEnd?.(); };
     utterance.onerror = () => {
       setSpeaking(false);
       onSpeechEnd?.();
     };
     synthRef.current.speak(utterance);
   }, []);
+  
 
   // ---------- Default command handler ----------
   const defaultHandleCommand = useCallback((query: string) => {
     const q = query.toLowerCase();
-    if (q.includes('hello') || q.includes('hi')) {
-      speak("Hello! I'm Alenso, Alan's AI assistant.");
-    } else if (q.includes('stop')) {
-      stopListening();
-    } else {
-      speak("Sorry, I don't understand that command.");
-    }
-  }, [speak]);
+    if (q.includes('stop') || q.includes('silence') || q.includes("don't speak")) { 
+      speak('Stopping voice assistant', () => { stopSpeechRecognition(); 
+        setIsActive(false); 
+        setFloating(false); 
+      }); return; }
+    if (q.includes('project')) { setIsAnimatingOut(true);
+      speak('Here are the projects Alan has worked on.', () => { setFloating(true);
+      setTimeout(() => { navigate("/projects");}, 600); });
+     } else if (q.includes('home')){ 
+      setIsAnimatingOut(true);
+      speak('Taking you home!', () => { setFloating(true);
+      setTimeout(() => { navigate("/"); }, 600); });
+     } else if (q.includes('resume')) { setIsAnimatingOut(true);
+      speak('Here is Alan\'s resume.', () => { setFloating(true);
+      setTimeout(() => { navigate("/resume"); }, 600); });
+     } else if (q.includes('about')) { setIsAnimatingOut(true);
+      speak('Let me tell you about Alan. He is a passionate and reliable individual, he is always working on something new!', () => { setFloating(true);
+      setTimeout(() => { navigate("/about"); }, 600); });
+     } else if (q.includes('alenso')) { setIsAnimatingOut(true);
+      speak('Yes! I am listening.', () => { setFloating(true);
+      setTimeout(() => { navigate(""); }, 600); });
+     } else if (q.includes('skill')) { setIsAnimatingOut(true);
+      speak('Alan is skilled in React, TypeScript, Node.js, Python, and many more technologies.', () => { setFloating(true);
+      setTimeout(() => { navigate("/skills"); }, 600); });
+     } else if (q.includes('contact')) { setIsAnimatingOut(true); 
+      speak('You can reach Alan via email at alan roy f f 101 at gmail dot com or phone at 7 5 1 1 1 3 6 1 7 1.', () => { setFloating(true); 
+      setTimeout(() => { navigate("/contact"); }, 600); });
+     } else if (q.includes('name')) { 
+      speak("Hi, I'm Alan's AI Assistant, Alenso! How can I help you?");
+     } else if (q.includes('hello') || q.includes('hi')) {
+       speak('Hello! My name is Alenso, Alan\'s AI assistant. How can I assist you today?');
+     } else if (q.includes('help')) { 
+      speak('You can ask me about projects, skills, resume, about Alan, or how to contact him.');
+     } else { speak(""); } },
+      [speak, navigate]);
 
   const handleCommandInternal = useCallback((query: string) => {
     if (handleBackendCommand) {
@@ -189,6 +226,12 @@ const VoiceAI: React.FC<VoiceAIProps> = ({ onBack, handleBackendCommand }) => {
   }, [handleBackendCommand, speak, defaultHandleCommand]);
 
   // ---------- Continuous recording ----------
+
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const mediaStreamRef = useRef<MediaStream | null>(null);
+  const chunksRef = useRef<Blob[]>([]);
+  const silenceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   const startSpeechRecognition = useCallback(() => {
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       const mediaRecorder = new MediaRecorder(stream);
@@ -219,8 +262,44 @@ const VoiceAI: React.FC<VoiceAIProps> = ({ onBack, handleBackendCommand }) => {
           reader.readAsDataURL(event.data);
         }
       };
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)() as AudioContext & {
+        createAnalyser: () => AnalyserNode;
+        createMediaStreamSource: (stream: MediaStream) => MediaStreamAudioSourceNode;
+      };
 
-      mediaRecorder.start(4000); // send audio every 4 second
+      const analyser = audioContext.createAnalyser();
+      const source = audioContext.createMediaStreamSource(stream);
+      source.connect(analyser);
+      analyser.fftSize = 2048;
+
+      const dataArray = new Uint8Array(analyser.fftSize);
+      const checkSilence = () => {
+      analyser.getByteTimeDomainData(dataArray);
+      let sum = 0;
+      for (let i = 0; i < dataArray.length; i++) {
+        const v = (dataArray[i] - 128) / 128;
+        sum += v * v;
+      }
+      const volume = Math.sqrt(sum / dataArray.length);
+
+      if (volume > 0.01) {
+        // speaking → cancel any pending stop
+        if (silenceTimeoutRef.current) clearTimeout(silenceTimeoutRef.current);
+      } else {
+        // silence → schedule stop
+        if (!silenceTimeoutRef.current) {
+          silenceTimeoutRef.current = setTimeout(() => {
+            mediaRecorder.stop();
+            silenceTimeoutRef.current = null;
+          }, 800); // stop after 0.8s of silence
+        }
+      }
+
+      requestAnimationFrame(checkSilence);
+    };
+
+
+      mediaRecorder.start(); 
       setListening(true);
       setReconnecting(false);
     }).catch(err => {
@@ -238,7 +317,7 @@ const VoiceAI: React.FC<VoiceAIProps> = ({ onBack, handleBackendCommand }) => {
   // ---------- Start / Stop control ----------
   const startListening = useCallback(() => {
     setIsActive(true);
-    speak("Hi! I'm Alenso, Alan's AI assistant. Feel free to ask anything.", startSpeechRecognition);
+    speak("Hi! I'm Alenso, Alan's AI assistant. Feel free to ask anything about him.", startSpeechRecognition);
   }, [speak, startSpeechRecognition]);
 
   const stopListening = useCallback(() => {
