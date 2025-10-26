@@ -3,9 +3,9 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { motion, AnimatePresence } from 'framer-motion';
 import * as THREE from 'three';
 import { Button } from '@/components/ui/button';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-// ---------- WaveLayer Component ----------
+// ---------- WaveLayer ----------
 const WaveLayer = ({ radius, color, speed, amplitude, frequency, offset }: any) => {
   const meshRef = useRef<THREE.Mesh>(null);
   const geometryRef = useRef<THREE.SphereGeometry>(null);
@@ -30,7 +30,6 @@ const WaveLayer = ({ radius, color, speed, amplitude, frequency, offset }: any) 
           initialPositions.current[i * 3 + 1],
           initialPositions.current[i * 3 + 2]
         );
-
         const normal = initialVertex.clone().normalize();
         const initialDistance = initialVertex.length();
 
@@ -69,16 +68,13 @@ const WaveLayer = ({ radius, color, speed, amplitude, frequency, offset }: any) 
   );
 };
 
-// ---------- Orb Component ----------
+// ---------- Orb ----------
 const Orb = ({ listening, speaking }: { listening: boolean; speaking: boolean }) => {
   const groupRef = useRef<THREE.Group>(null);
-
   const idleColors = ['#00D4FF', '#0099FF', '#0066FF'];
   const activeColors = ['#FF00FF', '#9370DB', '#00FF88', '#FFD700', '#FF006E'];
-
   const isActive = listening || speaking;
   const colors = isActive ? activeColors : idleColors;
-
   const baseAmplitude = isActive ? 0.06 : 0.015;
   const baseSpeed = isActive ? 1.5 : 0.4;
   const layerCount = isActive ? 5 : 3;
@@ -86,13 +82,8 @@ const Orb = ({ listening, speaking }: { listening: boolean; speaking: boolean })
   useFrame((state) => {
     if (groupRef.current) {
       groupRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
-
-      if (isActive) {
-        const scale = 1 + Math.sin(state.clock.elapsedTime * 3) * 0.04;
-        groupRef.current.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.1);
-      } else {
-        groupRef.current.scale.lerp(new THREE.Vector3(1, 1, 1), 0.1);
-      }
+      const scale = isActive ? 1 + Math.sin(state.clock.elapsedTime * 3) * 0.04 : 1;
+      groupRef.current.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.1);
     }
   });
 
@@ -115,18 +106,13 @@ const Orb = ({ listening, speaking }: { listening: boolean; speaking: boolean })
       ))}
       <mesh>
         <sphereGeometry args={[1.5, 32, 32]} />
-        <meshBasicMaterial
-          color={colors[0]}
-          transparent
-          opacity={isActive ? 0.08 : 0.03}
-          side={THREE.BackSide}
-        />
+        <meshBasicMaterial color={colors[0]} transparent opacity={isActive ? 0.08 : 0.03} side={THREE.BackSide} />
       </mesh>
     </group>
   );
 };
 
-// ---------- VoiceAI Component ----------
+// ---------- VoiceAI ----------
 interface VoiceAIProps {
   onBack?: () => void;
   handleBackendCommand?: (query: string, speak: (text: string, onSpeechEnd?: () => void) => void) => void;
@@ -138,48 +124,49 @@ const VoiceAI: React.FC<VoiceAIProps> = ({ onBack, handleBackendCommand }) => {
   const [speaking, setSpeaking] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [floating, setFloating] = useState(false);
-  const [reconnecting, setReconnecting] = useState(false);
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
-  const [lastApiResponse, setLastApiResponse] = useState<string | null>(null); // New state for API response
-  const navigate = useNavigate();
+  const [lastApiResponse, setLastApiResponse] = useState<string | null>(null);
 
+  const navigate = useNavigate();
+  const location = useLocation();
   const synthRef = useRef<SpeechSynthesis | null>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // ---------- Speech synthesis ----------
   useEffect(() => {
     synthRef.current = window.speechSynthesis;
   }, []);
-const getMaleVoice = useCallback(() => { if (!synthRef.current) return null;
-  const voices = synthRef.current.getVoices(); 
-  return voices.find( 
-    (v) => v.name.includes('Male') 
-    || v.name.includes('David') || 
-    v.name.includes('Mark') || 
-    v.name.includes('Google US English') 
-    || (v.lang === 'en-US' && !v.name.includes('Female')) ) 
-    || null; },
-  []);
+
+  const getMaleVoice = useCallback(() => {
+    if (!synthRef.current) return null;
+    const voices = synthRef.current.getVoices();
+    return (
+      voices.find((v) =>
+        v.name.includes('Male') ||
+        v.name.includes('David') ||
+        v.name.includes('Mark') ||
+        v.name.includes('Google US English')
+      ) || null
+    );
+  }, []);
+
   const speak = useCallback((text: string, onSpeechEnd?: () => void) => {
     if (!synthRef.current) return onSpeechEnd?.();
     synthRef.current.cancel();
     setSpeaking(true);
-    const utterance = new SpeechSynthesisUtterance(text); 
-    const voice = getMaleVoice(); if (voice) { utterance.voice = voice; } 
-    utterance.rate = 1.0; 
-    utterance.pitch = 0.8; 
-    utterance.volume = 1.0; 
-    utterance.onend = () => { setSpeaking(false); onSpeechEnd?.(); };
-    utterance.onerror = () => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    const voice = getMaleVoice();
+    if (voice) utterance.voice = voice;
+    utterance.rate = 1;
+    utterance.pitch = 0.9;
+    utterance.volume = 1;
+    utterance.onend = () => {
       setSpeaking(false);
       onSpeechEnd?.();
     };
     synthRef.current.speak(utterance);
-  }, []);
-  
-
-  // ---------- Default command handler ----------
-  const defaultHandleCommand = useCallback((query: string) => {
+  }, [getMaleVoice]);
+const defaultHandleCommand = useCallback((query: string) => {
     const q = query.toLowerCase();
     if (q.includes('stop') || q.includes('silence') || q.includes("don't speak")) { 
       speak('Stopping voice assistant', () => { stopSpeechRecognition(); 
@@ -225,193 +212,88 @@ const getMaleVoice = useCallback(() => { if (!synthRef.current) return null;
     }
   }, [handleBackendCommand, speak, defaultHandleCommand]);
 
-  // ---------- Continuous recording ----------
-
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const mediaStreamRef = useRef<MediaStream | null>(null);
-  const chunksRef = useRef<Blob[]>([]);
-  const silenceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
+  // ---------- Voice Recording Logic ----------
   const startSpeechRecognition = useCallback(() => {
     navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
 
-      mediaRecorder.ondataavailable = async (event) => {
-        if (event.data.size > 0) {
-          const reader = new FileReader();
-          reader.onloadend = async () => {
-            const base64 = reader.result as string;
-            try {
-              const res = await fetch('/api/speech', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ audioBase64: base64 }),
-              });
-              const data = await res.json();
-              setLastApiResponse(JSON.stringify(data, null, 2)); // Store the full response
-              if (data.transcript) {
-                setTranscript(data.transcript);
-                handleCommandInternal(data.transcript);
-              }
-            } catch (err: any) {
-              console.error('Speech API error:', err);
-              setLastApiResponse(`Error: ${err.message || 'Unknown API error'}`); // Store error message
-            }
-          };
-          reader.readAsDataURL(event.data);
-        }
-      };
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)() as AudioContext & {
-        createAnalyser: () => AnalyserNode;
-        createMediaStreamSource: (stream: MediaStream) => MediaStreamAudioSourceNode;
+      const chunks: Blob[] = [];
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) chunks.push(e.data);
       };
 
-      const analyser = audioContext.createAnalyser();
-      const source = audioContext.createMediaStreamSource(stream);
-      source.connect(analyser);
-      analyser.fftSize = 2048;
+      mediaRecorder.onstop = async () => {
+        const blob = new Blob(chunks, { type: 'audio/webm' });
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+          try {
+            const res = await fetch('/api/speech', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ audioBase64: reader.result }),
+            });
+            const data = await res.json();
+            setTranscript(data.transcript || '');
+            handleCommandInternal(data.transcript || '');
+          } catch (err) {
+            console.error(err);
+          }
+        };
+        reader.readAsDataURL(blob);
+      };
 
-      const dataArray = new Uint8Array(analyser.fftSize);
-      const checkSilence = () => {
-      analyser.getByteTimeDomainData(dataArray);
-      let sum = 0;
-      for (let i = 0; i < dataArray.length; i++) {
-        const v = (dataArray[i] - 128) / 128;
-        sum += v * v;
-      }
-      const volume = Math.sqrt(sum / dataArray.length);
-
-      if (volume > 0.01) {
-        // speaking → cancel any pending stop
-        if (silenceTimeoutRef.current) clearTimeout(silenceTimeoutRef.current);
-      } else {
-        // silence → schedule stop
-        if (!silenceTimeoutRef.current) {
-          silenceTimeoutRef.current = setTimeout(() => {
-            mediaRecorder.stop();
-            silenceTimeoutRef.current = null;
-          }, 800); // stop after 0.8s of silence
-        }
-      }
-
-      requestAnimationFrame(checkSilence);
-    };
-
-
-      mediaRecorder.start(); 
+      mediaRecorder.start();
       setListening(true);
-      setReconnecting(false);
-    }).catch(err => {
-      console.error('Microphone access denied', err);
-      setLastApiResponse(`Microphone access denied: ${err.message || 'Unknown error'}`);
+
+      timeoutRef.current = setTimeout(() => {
+        mediaRecorder.stop();
+        setListening(false);
+      }, 5000); // record for 5 seconds
     });
   }, [handleCommandInternal]);
 
   const stopSpeechRecognition = useCallback(() => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
     mediaRecorderRef.current?.stop();
     mediaRecorderRef.current = null;
     setListening(false);
   }, []);
 
-  // ---------- Start / Stop control ----------
+  // ---------- UI Controls ----------
   const startListening = useCallback(() => {
     setIsActive(true);
+    setFloating(true);
     speak("Hi! I'm Alenso, Alan's AI assistant. Feel free to ask anything about him.", startSpeechRecognition);
   }, [speak, startSpeechRecognition]);
 
   const stopListening = useCallback(() => {
-    setIsActive(false);
-    setFloating(false);
     stopSpeechRecognition();
-    synthRef.current?.cancel();
-    setSpeaking(false);
-    setLastApiResponse(null); // Clear API response on stop
+    setIsActive(false);
   }, [stopSpeechRecognition]);
 
-  const toggleListening = useCallback(() => {
-    if (isActive) stopListening();
-    else startListening();
-  }, [isActive, startListening, stopListening]);
+  // Keep orb across routes
+  useEffect(() => {
+    setFloating(true);
+  }, [location]);
 
-  // ---------- UI Rendering ----------
+  // ---------- Render ----------
   return (
     <AnimatePresence>
-      {/* Floating Orb */}
       {floating && (
         <motion.div
           className="fixed bottom-4 right-4 w-24 h-24 z-50 cursor-pointer shadow-2xl"
-          initial={{ scale: 0, x: 200, y: 200, opacity: 0 }}
-          animate={isAnimatingOut ? { scale: 0.3, x: -20, y: 0, opacity: 0.7 } : { scale: 1, x: 0, y: 0, opacity: 1 }}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0, opacity: 0 }}
+          onClick={() => (isActive ? stopListening() : startListening())}
         >
           <Canvas>
             <ambientLight intensity={0.5} />
             <pointLight position={[2, 2, 2]} intensity={1} />
             <Orb listening={listening} speaking={speaking} />
           </Canvas>
-          {reconnecting && (
-            <motion.div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-blue-500/90 text-white px-3 py-1 rounded-full text-xs font-medium">
-              Reconnecting...
-            </motion.div>
-          )}
         </motion.div>
-      )}
-
-      {/* Main Interface */}
-      {!floating && (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/70 backdrop-blur-md p-4">
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.8, opacity: 0 }}
-            className="relative flex flex-col items-center justify-center w-full max-w-3xl h-[85vh] bg-gradient-to-br from-gray-900 to-black rounded-3xl p-8 shadow-2xl border border-gray-800"
-          >
-            <div className="w-full h-3/5 mb-8 ml-10">
-              <Canvas camera={{ position: [0, 0, 3] }}>
-                <ambientLight intensity={0.5} />
-                <pointLight position={[5, 5, 5]} intensity={1} />
-                <pointLight position={[-5, -5, -5]} intensity={0.5} color="#3cfffb" />
-                <Orb listening={listening} speaking={speaking} />
-              </Canvas>
-            </div>
-
-            <div className="mb-4 relative">
-              {reconnecting && <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-blue-500/90 text-white px-4 py-2 rounded-full text-sm font-medium">🔄 Reconnecting...</div>}
-              {listening && !reconnecting && <div className="text-green-400 font-semibold text-lg animate-pulse">Listening...</div>}
-              {speaking && <div className="text-blue-400 font-semibold text-lg animate-pulse">Speaking...</div>}
-              {!listening && !speaking && !reconnecting && <div className="text-gray-500 font-semibold text-lg">{isActive ? 'Ready' : 'Press Start to begin'}</div>}
-            </div>
-
-            <div className="min-h-[60px] max-w-2xl mb-8">
-              <p className="text-green-400 font-mono text-center text-sm leading-relaxed">{transcript || 'Your voice input will appear here...'}</p>
-            </div>
-
-            {/* API Response Debug Area */}
-            {lastApiResponse && (
-              <div className="absolute bottom-4 left-4 right-4 bg-gray-800/80 p-3 rounded-lg text-xs text-gray-300 max-h-24 overflow-y-auto">
-                <h4 className="font-bold mb-1">Last API Response:</h4>
-                <pre className="whitespace-pre-wrap break-all">{lastApiResponse}</pre>
-              </div>
-            )}
-
-            <div className="flex gap-4">
-              <Button onClick={toggleListening} className={`${isActive ? 'bg-red-600 hover:bg-red-700' : 'bg-green-500 hover:bg-green-600'} text-white shadow-lg transform hover:scale-105 transition-all`}>
-                {isActive ? 'Stop' : 'Start'}
-              </Button>
-              {onBack && (
-                <Button onClick={() => { stopListening(); onBack(); }} className="bg-gray-700 hover:bg-gray-600 text-white shadow-lg transform hover:scale-105 transition-all">
-                  Back
-                </Button>
-              )}
-            </div>
-
-            <div className="mt-8 text-gray-400 text-sm text-center max-w-md">
-              <p className="mb-2">Try saying:</p>
-              <p className="text-xs">"What's your name?" | "Tell me about skills" | "Show me projects" | "Stop"</p>
-            </div>
-          </motion.div>
-        </div>
       )}
     </AnimatePresence>
   );
