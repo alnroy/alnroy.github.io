@@ -69,7 +69,7 @@ const AboutSection = () => {
             </p>
 
             {/* Stats */}
-            <div className="grid grid-cols-4 gap-4 pt-5 border-t border-slate-100">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-5 border-t border-slate-100">
               {stats.map((s) => (
                 <div key={s.label} className="text-center">
                   <div className="text-2xl font-black gradient-text font-display">{s.value}</div>

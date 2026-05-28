@@ -119,42 +119,20 @@ const HeroSection = () => {
               Image anchored to BOTTOM = body sits in circle, head pops out above.
               mix-blend-mode:multiply on a near-white page bg kills the JPG white bg.
             */}
-            <div style={{ position: "relative", width: 300, height: 430, flexShrink: 0 }}>
+            <div className="relative w-[250px] h-[360px] sm:w-[300px] sm:h-[430px] flex-shrink-0">
 
               {/* Circle — the stage, sits at the bottom */}
-              <div style={{
-                position: "absolute",
-                bottom: 60,
-                left: "40%",
-                transform: "translateX(-50%)",
-                width: 310,
-                height: 250,
-                borderRadius: "10% 50% 15% 1%",
-                background: "#eef0f8",
-                boxShadow: "0 20px 50px rgba(0,0,0,0.30), 0 6px 16px rgba(0,0,0,0.18)",
-                zIndex: 1,
-              }} />
+              <div className="absolute bottom-[50px] sm:bottom-[60px] left-[40%] -translate-x-1/2 w-[260px] sm:w-[310px] h-[210px] sm:h-[250px] rounded-[10%_50%_15%_1%] bg-[#eef0f8] shadow-[0_20px_50px_rgba(0,0,0,0.30),_0_6px_16px_rgba(0,0,0,0.18)] z-[1]" />
 
               {/*
                 Image raised 28px from bottom so shirt/wrist stay inside circle.
-                Width 250px fits comfortably inside 280px circle (no side overflow).
+                Width fits comfortably inside circle (no side overflow).
                 mix-blend-mode:multiply erases white bg.
               */}
               <img
                 src="/1000040683.jpg"
                 alt="Alan Roy"
-                style={{
-                  position: "absolute",
-                  bottom: 70,
-                  left: "40%",
-                  transform: "translateX(-50%)",
-                  width: 450,
-                  height: "auto",
-                  zIndex: 2,
-                  mixBlendMode: "multiply",
-                  borderRadius: "10%",
-                  display: "block",
-                }}
+                className="absolute bottom-[60px] sm:bottom-[70px] left-[40%] -translate-x-1/2 w-[370px] sm:w-[450px] h-auto z-[2] mix-blend-multiply rounded-[10%] block"
               />
 
             </div>
