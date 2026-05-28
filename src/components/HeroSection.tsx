@@ -1,13 +1,20 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Download, ArrowDown, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 const HeroSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isStacked, setIsStacked] = useState(false);
 
-  const isMobile = useIsMobile();
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 1023px)");
+    const onChange = () => setIsStacked(mql.matches);
+    mql.addEventListener("change", onChange);
+    setIsStacked(mql.matches);
+    return () => mql.removeEventListener("change", onChange);
+  }, []);
+
   const { scrollY } = useScroll();
   const contentY = useTransform(scrollY, [0, 500], [0, 60]);
   const opacity = useTransform(scrollY, [0, 380], [1, 0]);
@@ -30,7 +37,7 @@ const HeroSection = () => {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center min-h-[85vh]">
 
           {/* LEFT — Text */}
-          <motion.div style={{ y: isMobile ? 0 : contentY, opacity: isMobile ? 1 : opacity }} className="space-y-8 order-2 lg:order-1">
+          <motion.div style={{ y: isStacked ? 0 : contentY, opacity: isStacked ? 1 : opacity }} className="space-y-8 order-2 lg:order-1">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -109,7 +116,7 @@ const HeroSection = () => {
 
           {/* RIGHT — Photo: head pops above circle, white bg erased via multiply */}
           <motion.div
-            style={{ y: isMobile ? 0 : contentY, opacity: isMobile ? 1 : opacity }}
+            style={{ y: isStacked ? 0 : contentY, opacity: isStacked ? 1 : opacity }}
             className="order-1 lg:order-2 flex justify-center lg:justify-end"
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -148,7 +155,7 @@ const HeroSection = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        style={{ opacity: isMobile ? 1 : opacity }}
+        style={{ opacity: isStacked ? 1 : opacity }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
         <motion.div
