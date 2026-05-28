@@ -33,7 +33,7 @@ const skillCategories = [
     color: "text-emerald-600",
     bg: "bg-emerald-50",
     dot: "bg-emerald-500",
-    skills: ["Git / GitHub", "Cloudflare Tunnel", "CI/CD", "Linux Admin", "Domain Mgmt"],
+    skills: ["Git / GitHub", "Cloudflare Tunnel", "CI/CD", "Linux Admin", "Domain Management"],
   },
   {
     title: "AI & Engineering",

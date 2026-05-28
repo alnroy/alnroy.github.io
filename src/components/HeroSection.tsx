@@ -8,7 +8,7 @@ const HeroSection = () => {
 
   const { scrollY } = useScroll();
   const contentY = useTransform(scrollY, [0, 500], [0, 60]);
-  const opacity   = useTransform(scrollY, [0, 380], [1, 0]);
+  const opacity = useTransform(scrollY, [0, 380], [1, 0]);
 
   return (
     <section
@@ -107,6 +107,7 @@ const HeroSection = () => {
 
           {/* RIGHT — Photo: head pops above circle, white bg erased via multiply */}
           <motion.div
+            style={{ y: contentY, opacity }}
             className="order-1 lg:order-2 flex justify-center lg:justify-end"
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -123,12 +124,12 @@ const HeroSection = () => {
               {/* Circle — the stage, sits at the bottom */}
               <div style={{
                 position: "absolute",
-                bottom: 0,
+                bottom: 60,
                 left: "40%",
                 transform: "translateX(-50%)",
-                width: 350,
-                height: 350,
-                borderRadius: "50%",
+                width: 310,
+                height: 250,
+                borderRadius: "10% 50% 15% 1%",
                 background: "#eef0f8",
                 boxShadow: "0 20px 50px rgba(0,0,0,0.30), 0 6px 16px rgba(0,0,0,0.18)",
                 zIndex: 1,
@@ -147,11 +148,11 @@ const HeroSection = () => {
                   bottom: 70,
                   left: "40%",
                   transform: "translateX(-50%)",
-                  width: 350,
+                  width: 450,
                   height: "auto",
                   zIndex: 2,
                   mixBlendMode: "multiply",
-                  borderRadius: "5%",
+                  borderRadius: "10%",
                   display: "block",
                 }}
               />
