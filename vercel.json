@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "routes": [
+    { "src": "/api/speech", "dest": "/api/speech.js" }
+  ]
+}

@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=Sora:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* ─── Design Tokens ─── */
+@layer base {
+  :root {
+    --background:   0 0% 98%;
+    --foreground:   220 25% 12%;
+
+    --card:         0 0% 100%;
+    --card-foreground: 220 25% 12%;
+
+    --popover:      0 0% 100%;
+    --popover-foreground: 220 25% 12%;
+
+    --primary:      220 80% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary:    250 70% 60%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted:        220 14% 94%;
+    --muted-foreground: 220 14% 46%;
+
+    --accent:       220 14% 94%;
+    --accent-foreground: 220 25% 12%;
+
+    --destructive:  0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border:       220 14% 90%;
+    --input:        220 14% 90%;
+    --ring:         220 80% 50%;
+
+    --radius:       1rem;
+
+    /* Custom palette */
+    --blue:    220 80% 50%;
+    --indigo:  250 70% 60%;
+    --ink:     220 25% 12%;
+    --slate:   220 14% 46%;
+    --sand:    40 30% 96%;
+  }
+}
+
+/* ─── Base Reset ─── */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  body {
+    @apply bg-background text-foreground overflow-x-hidden;
+    background: #f9f9fb;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Subtle noise texture on body ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    opacity: 0.6;
+  }
+}
+
+/* ─── Utility Classes ─── */
+@layer base {
+
+  /* Typography */
+  .font-display {
+    font-family: 'Sora', 'Inter', sans-serif;
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(220 80% 50%) 0%, hsl(250 70% 60%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Section pill label */
+  .section-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    border-radius: 999px;
+    background: hsl(220 80% 50% / 0.08);
+    border: 1px solid hsl(220 80% 50% / 0.18);
+    color: hsl(220 80% 50%);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* Cards */
+  .card-light {
+    background: #ffffff;
+    border: 1px solid hsl(220 14% 91%);
+    box-shadow:
+      0 1px 3px rgba(0,0,0,0.04),
+      0 4px 16px rgba(0,0,0,0.04);
+    transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .card-light:hover {
+    box-shadow:
+      0 2px 8px rgba(0,0,0,0.06),
+      0 12px 40px rgba(59,130,246,0.08);
+    border-color: hsl(220 80% 50% / 0.2);
+  }
+
+  /* Subtle surface variant */
+  .card-surface {
+    background: hsl(220 30% 97%);
+    border: 1px solid hsl(220 14% 92%);
+  }
+
+  /* ── KSR Cinematic 3D Cutout ── */
+  @keyframes ken-burns {
+    from { transform: scale(1); }
+    to   { transform: scale(1.18); }
+  }
+
+  @keyframes float-photo {
+    0%, 100% { transform: translateY(0px) rotate(-1deg); }
+    50%       { transform: translateY(-18px) rotate(1deg); }
+  }
+
+  @keyframes shadow-pulse {
+    0%, 100% { opacity: 0.35; transform: translateX(-50%) scaleX(1); }
+    50%       { opacity: 0.2;  transform: translateX(-50%) scaleX(0.85); }
+  }
+
+  .photo-3d-container {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .photo-3d-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(40px);
+    opacity: 0.12;
+    animation: ken-burns 12s ease-out infinite alternate;
+    transform-origin: center center;
+    pointer-events: none;
+  }
+
+  .photo-3d-main {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    filter: drop-shadow(0 24px 48px rgba(59,130,246,0.18)) drop-shadow(0 4px 12px rgba(0,0,0,0.12));
+    animation: float-photo 7s ease-in-out infinite;
+    transform-origin: bottom center;
+  }
+
+  .photo-3d-shadow {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    height: 28px;
+    background: rgba(59,130,246,0.18);
+    border-radius: 50%;
+    filter: blur(16px);
+    animation: shadow-pulse 7s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /* ── Timeline ── */
+  .timeline-line {
+    background: linear-gradient(180deg,
+      transparent 0%,
+      hsl(220 80% 50%) 25%,
+      hsl(250 70% 60%) 75%,
+      transparent 100%
+    );
+  }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: #f1f5f9; }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, hsl(220 80% 60%), hsl(250 70% 65%));
+    border-radius: 10px;
+  }
+
+  /* ── Keyframes ── */
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes slide-right {
+    from { opacity: 0; transform: translateX(-24px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slide-left {
+    from { opacity: 0; transform: translateX(24px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  .animate-fade-up   { animation: fade-up 0.7s cubic-bezier(0.16,1,0.3,1) both; }
+  .animate-fade-in   { animation: fade-in 0.6s ease both; }
+  .animate-slide-right { animation: slide-right 0.7s cubic-bezier(0.16,1,0.3,1) both; }
+  .animate-slide-left  { animation: slide-left 0.7s cubic-bezier(0.16,1,0.3,1) both; }
+}
