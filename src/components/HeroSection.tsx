@@ -8,7 +8,7 @@ const HeroSection = () => {
   const [isStacked, setIsStacked] = useState(false);
 
   useEffect(() => {
-    const mql = window.matchMedia("(max-width: 1023px)");
+    const mql = window.matchMedia("(max-width: 767px)");
     const onChange = () => setIsStacked(mql.matches);
     mql.addEventListener("change", onChange);
     setIsStacked(mql.matches);
@@ -34,10 +34,10 @@ const HeroSection = () => {
       </div>
 
       <div className="container mx-auto px-6 lg:px-10 pt-24 pb-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center min-h-[85vh]">
+        <div className="grid md:grid-cols-2 gap-12 md:gap-8 items-center min-h-[85vh]">
 
           {/* LEFT — Text */}
-          <motion.div style={{ y: isStacked ? 0 : contentY, opacity: isStacked ? 1 : opacity }} className="space-y-8 order-2 lg:order-1">
+          <motion.div style={{ y: isStacked ? 0 : contentY, opacity: isStacked ? 1 : opacity }} className="space-y-8 order-2 md:order-1">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -117,7 +117,7 @@ const HeroSection = () => {
           {/* RIGHT — Photo: head pops above circle, white bg erased via multiply */}
           <motion.div
             style={{ y: isStacked ? 0 : contentY, opacity: isStacked ? 1 : opacity }}
-            className="order-1 lg:order-2 flex justify-center lg:justify-end"
+            className="order-1 md:order-2 flex justify-center md:justify-end"
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
@@ -128,10 +128,10 @@ const HeroSection = () => {
               Image anchored to BOTTOM = body sits in circle, head pops out above.
               mix-blend-mode:multiply on a near-white page bg kills the JPG white bg.
             */}
-            <div className="relative w-[250px] h-[360px] sm:w-[300px] sm:h-[430px] flex-shrink-0">
+            <div className="relative w-[240px] h-[340px] md:w-[250px] md:h-[360px] lg:w-[300px] lg:h-[430px] flex-shrink-0">
 
               {/* Circle — the stage, sits at the bottom */}
-              <div className="absolute bottom-[50px] sm:bottom-[60px] left-[40%] -translate-x-1/2 w-[260px] sm:w-[310px] h-[210px] sm:h-[250px] rounded-[10%_50%_15%_1%] bg-[#eef0f8] shadow-[0_20px_50px_rgba(0,0,0,0.30),_0_6px_16px_rgba(0,0,0,0.18)] z-[1]" />
+              <div className="absolute bottom-[50px] md:bottom-[50px] lg:bottom-[60px] left-[40%] -translate-x-1/2 w-[260px] md:w-[260px] lg:w-[310px] h-[210px] md:h-[210px] lg:h-[250px] rounded-[10%_50%_15%_1%] bg-[#eef0f8] shadow-[0_20px_50px_rgba(0,0,0,0.30),_0_6px_16px_rgba(0,0,0,0.18)] z-[1]" />
 
               {/*
                 Image raised 28px from bottom so shirt/wrist stay inside circle.
@@ -141,7 +141,7 @@ const HeroSection = () => {
               <img
                 src="/1000040683.jpg"
                 alt="Alan Roy"
-                className="absolute bottom-[60px] sm:bottom-[70px] left-[40%] -translate-x-1/2 w-[370px] sm:w-[450px] h-auto z-[2] mix-blend-multiply rounded-[10%] block"
+                className="absolute bottom-[60px] md:bottom-[60px] lg:bottom-[70px] left-[40%] -translate-x-1/2 w-[370px] md:w-[370px] lg:w-[450px] h-auto z-[2] mix-blend-multiply rounded-[10%] block"
               />
 
             </div>
