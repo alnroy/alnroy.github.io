@@ -2,10 +2,12 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Download, ArrowDown, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const HeroSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const isMobile = useIsMobile();
   const { scrollY } = useScroll();
   const contentY = useTransform(scrollY, [0, 500], [0, 60]);
   const opacity = useTransform(scrollY, [0, 380], [1, 0]);
@@ -28,7 +30,7 @@ const HeroSection = () => {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center min-h-[85vh]">
 
           {/* LEFT — Text */}
-          <motion.div style={{ y: contentY, opacity }} className="space-y-8 order-2 lg:order-1">
+          <motion.div style={{ y: isMobile ? 0 : contentY, opacity: isMobile ? 1 : opacity }} className="space-y-8 order-2 lg:order-1">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -107,7 +109,7 @@ const HeroSection = () => {
 
           {/* RIGHT — Photo: head pops above circle, white bg erased via multiply */}
           <motion.div
-            style={{ y: contentY, opacity }}
+            style={{ y: isMobile ? 0 : contentY, opacity: isMobile ? 1 : opacity }}
             className="order-1 lg:order-2 flex justify-center lg:justify-end"
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -146,7 +148,7 @@ const HeroSection = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
-        style={{ opacity }}
+        style={{ opacity: isMobile ? 1 : opacity }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
         <motion.div
