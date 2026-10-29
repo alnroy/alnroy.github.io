@@ -37,7 +37,7 @@ const featuredProjects: Project[] = [
     qa_perspective:
       "Executed full manual and functional testing, cross-browser/mobile viewport validation, and Postman API test suites for checkout payloads, tax calculations, and session security.",
     tags: ["React", "TypeScript", "Python", "DRF", "PostgreSQL", "Tailwind", "Postman", "Live System"],
-    image: "https://images.unsplash.com/photo-1535498730771-e735b998cd64?w=900&q=85",
+    image: "https://www.ksrbaitandtackle.in/insta_logo.jpg",
     featured: true,
   },
   {
@@ -49,7 +49,7 @@ const featuredProjects: Project[] = [
     qa_perspective:
       "Designed and executed test scenarios for two-factor Delivery OTP verification (timeouts, lockout states, transitions) and mobile admin dashboard workflows.",
     tags: ["Python", "Django", "Vanilla JS", "Web Scraping", "WhatsApp API", "OTP Security", "UAT"],
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=900&q=85",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSlsfjHbBuqvLoHUw9QIJQbYOSExP-p0Kluq944axQIA&s=10",
     featured: true,
   },
 ];
